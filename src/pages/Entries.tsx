@@ -67,7 +67,8 @@ export default function Entries() {
   }, []);
 
   return (
-    <div className="min-h-screen stripe-pattern p-4 md:p-8 relative">
+    <div className="min-h-screen leopard-pattern p-4 md:p-8 relative">
+      <div className="absolute inset-0 bg-white/35 backdrop-blur-[1px]" />
       <div className="max-w-6xl mx-auto text-black relative z-10">
         <motion.button
           initial={{ x: -20, opacity: 0 }}
@@ -82,7 +83,7 @@ export default function Entries() {
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="bg-white/95 p-8 rounded-3xl border-4 border-black shadow-2xl"
+          className="bg-white p-8 rounded-3xl border-4 border-black shadow-2xl"
         >
           <div className="flex items-center justify-between mb-6 border-b-2 border-black pb-2">
             <h1 className="text-3xl md:text-4xl font-display italic text-black flex items-center gap-2">

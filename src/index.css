@@ -23,6 +23,14 @@
     background-size: 80px 100%;
   }
 
+  .leopard-pattern {
+    background-color: #e6b980;
+    background-image: url('/leopard.png');
+    background-position: center;
+    background-repeat: repeat;
+    background-size: cover;
+  }
+
   .text-neon-glow {
     text-shadow: 
       0 0 7px #FF1493,

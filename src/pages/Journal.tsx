@@ -2210,7 +2210,8 @@ const loadSavedEntries = () => {
   };
 
   return (
-    <div className="min-h-screen stripe-pattern p-4 md:p-8 relative">
+    <div className="min-h-screen leopard-pattern p-4 md:p-8 relative">
+      <div className="absolute inset-0 bg-white/35 backdrop-blur-[1px]" />
       <div className="pointer-events-none fixed inset-0 z-40 overflow-hidden">
         <AnimatePresence>
           {confetti.map((piece) => (
