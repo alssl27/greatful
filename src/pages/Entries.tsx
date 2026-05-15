@@ -111,7 +111,7 @@ export default function Entries() {
                     initial={{ opacity: 0, y: 30, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ type: 'spring', stiffness: 100, damping: 15 }}
-                    className="border-l-4 border-neon-pink pl-4 py-1"
+                    className="bg-white p-4 rounded-xl border-l-4 border-neon-pink"
                   >
                     <p className="text-[10px] font-bold text-gray-500 uppercase">{entry.date}</p>
                     <p className="text-sm font-bold text-black italic mb-1">Q: {entry.prompt}</p>

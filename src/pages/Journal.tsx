@@ -2206,7 +2206,7 @@ const loadSavedEntries = () => {
     setTimeout(() => {
       setShowSuccess(false);
       handleNext();
-    }, 2000);
+    }, 3000);
   };
 
   return (
@@ -2254,21 +2254,20 @@ const loadSavedEntries = () => {
           >
             <motion.div
               initial={{ scale: 0.5, y: 50, rotate: -10 }}
-              animate={{ 
-                scale: [0.5, 1.2, 1], 
-                y: 0, 
-                rotate: 0,
-                textShadow: [
-                  "0 0 20px #FF1493",
-                  "0 0 40px #FF1493",
-                  "0 0 20px #FF1493"
-                ] 
-              }}
-              className="p-8 border-8 border-neon-pink bg-white shadow-[0_0_50px_#FF1493]"
+              animate={{ scale: [0.5, 1.05, 1], y: 0, rotate: 0 }}
+              className="p-4 bg-transparent"
             >
-              <h1 className="text-8xl md:text-9xl font-display font-black text-black italic tracking-tighter uppercase leading-none px-8 py-4">
-                Blessed
-              </h1>
+              <div className="relative w-full max-w-4xl h-36 overflow-hidden">
+                <motion.h1
+                  initial={{ x: '-130%', opacity: 0, scale: 0.95 }}
+                  animate={{ x: ['-130%', '130%'], opacity: [0, 1, 1, 0], scale: [0.95, 1.06, 1] }}
+                  transition={{ duration: 0.9, ease: 'easeInOut', repeat: Infinity, repeatType: 'loop' }}
+                  className="absolute left-0 top-1/2 -translate-y-1/2 text-7xl md:text-9xl font-display font-black italic tracking-tighter uppercase leading-none px-8"
+                  style={{ color: '#FF1493', textShadow: '0 0 28px #FF1493, 0 0 56px #FF1493' }}
+                >
+                  Blessed
+                </motion.h1>
+              </div>
             </motion.div>
           </motion.div>
         )}
