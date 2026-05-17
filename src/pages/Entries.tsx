@@ -68,7 +68,6 @@ export default function Entries() {
 
   return (
     <div className="min-h-screen leopard-pattern p-4 md:p-8 relative">
-      <div className="absolute inset-0 bg-white/35 backdrop-blur-[1px]" />
       <div className="max-w-6xl mx-auto text-black relative z-10">
         <motion.button
           initial={{ x: -20, opacity: 0 }}

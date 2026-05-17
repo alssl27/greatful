@@ -2017,11 +2017,7 @@ export default function Journal() {
   const navigate = useNavigate();
 
 const PROMPT_CATEGORIES = [
-  'Intellectual & Creative Curiosity',
   'Workplace & Productivity',
-  'Invisible Infrastructure',
-  'Niche Sensory & Micro-Gratitude',
-  'Philosophical & Time-Based',
 ];
 
 const PROMPTS_PER_CATEGORY = 20;
@@ -2210,8 +2206,7 @@ const loadSavedEntries = () => {
   };
 
   return (
-    <div className="min-h-screen leopard-pattern p-4 md:p-8 relative">
-      <div className="absolute inset-0 bg-white/35 backdrop-blur-[1px]" />
+    <div className="min-h-screen leopard-pattern p-4 sm:p-6 md:p-8 relative">
       <div className="pointer-events-none fixed inset-0 z-40 overflow-hidden">
         <AnimatePresence>
           {confetti.map((piece) => (
@@ -2275,11 +2270,11 @@ const loadSavedEntries = () => {
       </AnimatePresence>
 
       <div className="max-w-8xl mx-auto text-black relative z-10">
-        <motion.button 
+          <motion.button 
           initial={{ x: -20, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           onClick={() => navigate('/')}
-          className="flex items-center gap-2 text-black bg-white px-4 py-2 rounded-full font-bold uppercase tracking-tighter mb-8 hover:bg-neon-pink hover:text-white transition-colors border-2 border-black"
+        className="flex items-center gap-2 text-black bg-white px-3 py-2 rounded-full font-bold uppercase tracking-tighter mb-6 sm:mb-8 hover:bg-neon-pink hover:text-white transition-colors border-2 border-black"
         >
           <ArrowLeft className="w-4 h-4" />
           Home
@@ -2290,28 +2285,28 @@ const loadSavedEntries = () => {
           <motion.div 
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="bg-black p-8 rounded-3xl border-4 border-neon-pink shadow-2xl text-white relative overflow-hidden"
+            className="bg-white p-6 md:p-8 rounded-3xl border-4 border-neon-pink shadow-2xl text-black relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 p-4 opacity-20">
               <Sparkles className="w-12 h-12 text-neon-pink" />
             </div>
 
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-3xl font-display italic text-neon-pink flex items-center gap-2">
+              <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl md:text-3xl font-display italic text-neon-pink flex items-center gap-2">
                 <BookOpen className="w-6 h-6" />
                 Reflect
               </h2>
-              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4">
                 <button 
                   onClick={handleRandom}
-                  className="text-xs font-bold uppercase tracking-tighter text-white/50 hover:text-[#00FFFF] transition-colors flex items-center gap-1"
+                  className="text-xs font-bold uppercase tracking-tighter text-black/50 hover:text-[#00FFFF] transition-colors flex items-center gap-1"
                 >
                   <Shuffle className="w-3 h-3" />
                   Random
                 </button>
                 <button 
                   onClick={handleNext}
-                  className="text-xs font-bold uppercase tracking-tighter text-white/50 hover:text-neon-pink transition-colors flex items-center gap-1"
+                  className="text-xs font-bold uppercase tracking-tighter text-black/50 hover:text-neon-pink transition-colors flex items-center gap-1"
                 >
                   Skip
                   <SkipForward className="w-3 h-3" />
@@ -2319,20 +2314,7 @@ const loadSavedEntries = () => {
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-2 mb-5">
-              {PROMPT_CATEGORIES.map((category, index) => {
-                const isActive = category === getPromptCategory(currentPromptIndex);
 
-                return (
-                  <span
-                    key={category}
-                    className={`text-[10px] font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full border ${isActive ? 'bg-neon-pink text-black border-neon-pink' : 'bg-white/5 text-white/60 border-white/10'}`}
-                  >
-                    {index + 1}. {category}
-                  </span>
-                );
-              })}
-            </div>
             
             <AnimatePresence mode="wait">
               <motion.div
@@ -2340,19 +2322,12 @@ const loadSavedEntries = () => {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                className="mb-8 min-h-[140px]"
+                className="mb-8 min-h-[120px] md:min-h-[140px]"
               >
-                <div className="flex flex-wrap items-center gap-2 mb-3">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.25em] bg-white text-black px-3 py-1 rounded-full">
-                    {getPromptSetLabel(currentPromptIndex)}
-                  </span>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.25em] bg-neon-pink text-black px-3 py-1 rounded-full">
-                    {getPromptCategory(currentPromptIndex)}
-                  </span>
-                </div>
-                <p className="text-xl font-bold italic mb-2">"{INITIAL_PROMPTS[currentPromptIndex].question}"</p>
+                <div className="mb-3" />
+                <p className="text-lg md:text-xl font-bold italic mb-2">"{INITIAL_PROMPTS[currentPromptIndex].question}"</p>
                 {INITIAL_PROMPTS[currentPromptIndex].hint && (
-                  <p className="text-sm text-neon-pink/80 font-medium italic">
+                  <p className="text-sm md:text-base text-neon-pink/80 font-medium italic">
                     Hint: {INITIAL_PROMPTS[currentPromptIndex].hint}
                   </p>
                 )}
@@ -2367,7 +2342,7 @@ const loadSavedEntries = () => {
                     value={blessed}
                     onChange={(e) => setBlessed(e.target.value)}
                     placeholder="What are you blessed with?"
-                    className="w-full h-40 bg-white/10 border-2 border-white/20 rounded-2xl p-4 text-white placeholder:text-white/30 focus:outline-none focus:border-neon-pink transition-colors resize-none"
+                    className="w-full h-32 md:h-40 bg-black/5 border-2 border-black/10 rounded-2xl p-4 text-black placeholder:text-black/40 focus:outline-none focus:border-neon-pink transition-colors resize-none"
                   />
                 </div>
 
@@ -2376,8 +2351,8 @@ const loadSavedEntries = () => {
                   <textarea
                     value={because}
                     onChange={(e) => setBecause(e.target.value)}
-                    placeholder="Why does it matter?"
-                    className="w-full h-40 bg-white/10 border-2 border-white/20 rounded-2xl p-4 text-white placeholder:text-white/30 focus:outline-none focus:border-neon-pink transition-colors resize-none"
+                    placeholder="becaause"
+                    className="w-full h-32 md:h-40 bg-black/5 border-2 border-black/10 rounded-2xl p-4 text-black placeholder:text-black/40 focus:outline-none focus:border-neon-pink transition-colors resize-none"
                   />
                 </div>
               </div>
@@ -2396,7 +2371,7 @@ const loadSavedEntries = () => {
               <button
                 type="button"
                 onClick={() => navigate('/entries')}
-                className="w-full bg-white text-black py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-neon-pink hover:text-white transition-colors border-2 border-black"
+                className="w-full bg-black text-white py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-neon-pink hover:text-white transition-colors border-2 border-black"
               >
                 View Saved Entries
               </button>
