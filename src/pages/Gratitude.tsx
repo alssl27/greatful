@@ -68,7 +68,7 @@ export default function Gratitude() {
               <input
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
-                className="w-full bg-black/5 border-2 border-black/10 rounded-2xl p-3 text-black placeholder:text-black/40 focus:outline-none focus:border-neon-pink transition-colors"
+                className="w-full bg-black/5 border-2 border-neon-cyan rounded-2xl p-3 text-black placeholder:text-black/40 focus:outline-none focus:border-neon-cyan focus:shadow-[0_0_12px_rgba(0,245,255,0.18)] transition-colors"
               />
             </div>
 
@@ -78,11 +78,11 @@ export default function Gratitude() {
                 value={answer}
                 onChange={(e) => setAnswer(e.target.value)}
                 placeholder="Write what you're grateful for and why..."
-                className="w-full h-40 bg-black/5 border-2 border-black/10 rounded-2xl p-4 text-black placeholder:text-black/40 focus:outline-none focus:border-neon-pink transition-colors resize-none"
+                className="w-full h-24 md:h-40 bg-black/5 border-2 border-neon-cyan rounded-2xl p-4 text-black placeholder:text-black/40 focus:outline-none focus:border-neon-cyan focus:shadow-[0_0_18px_rgba(0,245,255,0.14)] transition-colors resize-none"
               />
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex flex-col md:flex-row gap-3">
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
