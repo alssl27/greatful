@@ -18,6 +18,7 @@ export default function Gratitude() {
   const [saved, setSaved] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const audioCtxRef = useRef<AudioContext | null>(null);
+  const answerRef = useRef<HTMLTextAreaElement | null>(null);
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -48,7 +49,10 @@ export default function Gratitude() {
         setSaved(false);
         setShowConfetti(false);
         setAnswer('');
-        navigate('/entries');
+        setPrompt('I am grateful for...');
+        // focus textarea for next entry
+        try { answerRef.current?.focus(); } catch {}
+        // remain on the same page (no navigation)
       }, 1200);
     } catch {
       setSaved(false);
@@ -156,6 +160,7 @@ export default function Gratitude() {
                 value={answer}
                 onChange={(e) => setAnswer(e.target.value)}
                 placeholder="Write what you're grateful for and why..."
+                ref={answerRef}
                 className="w-full h-24 md:h-40 bg-black/5 border-2 border-neon-cyan rounded-2xl p-4 text-black placeholder:text-black/40 focus:outline-none focus:border-neon-cyan focus:shadow-[0_0_18px_rgba(0,245,255,0.14)] transition-colors resize-none"
               />
             </div>
