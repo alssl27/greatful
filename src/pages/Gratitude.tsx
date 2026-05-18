@@ -72,44 +72,55 @@ export default function Gratitude() {
       audioCtxRef.current = ctx;
       const now = ctx.currentTime;
 
-      // Primary oscillator sweep (triangular bright tone)
-      const osc = ctx.createOscillator();
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(220, now);
-      osc.frequency.exponentialRampToValueAtTime(880, now + 0.6);
+      // Create a quick metallic 'cha-ching' using short bell tones
+      const makeBell = (freq: number, timeOffset: number) => {
+        const o = ctx.createOscillator();
+        o.type = 'sine';
+        o.frequency.setValueAtTime(freq * 1.08, now + timeOffset);
+        o.frequency.exponentialRampToValueAtTime(freq * 0.9, now + timeOffset + 0.26);
 
-      const gain = ctx.createGain();
-      gain.gain.setValueAtTime(0.0001, now);
-      gain.gain.exponentialRampToValueAtTime(0.5, now + 0.02);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.0);
+        const g = ctx.createGain();
+        g.gain.setValueAtTime(0.0001, now + timeOffset);
+        g.gain.exponentialRampToValueAtTime(0.7, now + timeOffset + 0.01);
+        g.gain.exponentialRampToValueAtTime(0.0001, now + timeOffset + 0.5);
 
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start(now);
-      osc.stop(now + 1.0);
+        // Add slight metallic resonance
+        const f = ctx.createBiquadFilter();
+        f.type = 'bandpass';
+        f.frequency.setValueAtTime(freq * 1.5, now + timeOffset);
+        f.Q.value = 8;
 
-      // Add short noise burst for slot-machine hit
-      const bufferSize = ctx.sampleRate * 0.4;
-      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-      const data = buffer.getChannelData(0);
-      for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.9));
+        o.connect(f);
+        f.connect(g);
+        g.connect(ctx.destination);
 
-      const noise = ctx.createBufferSource();
-      noise.buffer = buffer;
-      const noiseGain = ctx.createGain();
-      noiseGain.gain.setValueAtTime(0.0001, now);
-      noiseGain.gain.linearRampToValueAtTime(0.6, now + 0.03);
-      noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
+        o.start(now + timeOffset);
+        o.stop(now + timeOffset + 0.6);
+      };
 
-      const band = ctx.createBiquadFilter();
-      band.type = 'highpass';
-      band.frequency.setValueAtTime(800, now);
+      // Sequence of 2 quick bells to simulate coin register
+      makeBell(880, 0);
+      makeBell(1320, 0.12);
 
-      noise.connect(band);
-      band.connect(noiseGain);
-      noiseGain.connect(ctx.destination);
-      noise.start(now);
-      noise.stop(now + 0.6);
+      // Subtle sparkle: high-frequency noise burst
+      const noiseBuf = ctx.createBuffer(1, ctx.sampleRate * 0.12, ctx.sampleRate);
+      const data = noiseBuf.getChannelData(0);
+      for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (data.length * 0.9));
+      const nb = ctx.createBufferSource();
+      nb.buffer = noiseBuf;
+      const ng = ctx.createGain();
+      ng.gain.setValueAtTime(0.0001, now);
+      ng.gain.linearRampToValueAtTime(0.5, now + 0.01);
+      ng.gain.exponentialRampToValueAtTime(0.0001, now + 0.16);
+      const hf = ctx.createBiquadFilter();
+      hf.type = 'highpass';
+      hf.frequency.setValueAtTime(1200, now);
+      nb.connect(hf);
+      hf.connect(ng);
+      ng.connect(ctx.destination);
+      nb.start(now + 0.02);
+      nb.stop(now + 0.16);
+
     } catch (err) {
       // fail silently
     }
