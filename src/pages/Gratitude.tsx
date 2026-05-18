@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useRef, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { Heart, Send } from 'lucide-react';
@@ -16,6 +16,8 @@ export default function Gratitude() {
   const [prompt, setPrompt] = useState('I am grateful for...');
   const [answer, setAnswer] = useState('');
   const [saved, setSaved] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const audioCtxRef = useRef<AudioContext | null>(null);
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -38,15 +40,80 @@ export default function Gratitude() {
       }
 
       setSaved(true);
+      // trigger confetti and sound
+      setShowConfetti(true);
+      playWinSound();
+
       setTimeout(() => {
         setSaved(false);
+        setShowConfetti(false);
         setAnswer('');
         navigate('/entries');
-      }, 900);
+      }, 1200);
     } catch {
       setSaved(false);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (audioCtxRef.current) {
+        try { audioCtxRef.current.close(); } catch {}
+      }
+    };
+  }, []);
+
+  function playWinSound() {
+    try {
+      const AudioCtx = (window as any).AudioContext || (window as any).webkitAudioContext;
+      if (!AudioCtx) return;
+
+      const ctx = new AudioCtx();
+      audioCtxRef.current = ctx;
+      const now = ctx.currentTime;
+
+      // Primary oscillator sweep (triangular bright tone)
+      const osc = ctx.createOscillator();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(220, now);
+      osc.frequency.exponentialRampToValueAtTime(880, now + 0.6);
+
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.5, now + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.0);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 1.0);
+
+      // Add short noise burst for slot-machine hit
+      const bufferSize = ctx.sampleRate * 0.4;
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.9));
+
+      const noise = ctx.createBufferSource();
+      noise.buffer = buffer;
+      const noiseGain = ctx.createGain();
+      noiseGain.gain.setValueAtTime(0.0001, now);
+      noiseGain.gain.linearRampToValueAtTime(0.6, now + 0.03);
+      noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
+
+      const band = ctx.createBiquadFilter();
+      band.type = 'highpass';
+      band.frequency.setValueAtTime(800, now);
+
+      noise.connect(band);
+      band.connect(noiseGain);
+      noiseGain.connect(ctx.destination);
+      noise.start(now);
+      noise.stop(now + 0.6);
+    } catch (err) {
+      // fail silently
+    }
+  }
 
   return (
     <div className="min-h-screen stripe-pattern p-4 md:p-8 relative text-white">
@@ -103,6 +170,18 @@ export default function Gratitude() {
               </button>
             </div>
           </form>
+          {showConfetti && (
+            <div className="confetti-container">
+              {Array.from({ length: 28 }).map((_, i) => {
+                const left = Math.round(Math.random() * 80) + 5;
+                const delay = Math.random() * 300;
+                const colors = ['var(--color-neon-pink)', 'var(--color-neon-cyan)', 'var(--color-neon-lime)', '#ffffff', '#ffd7f0'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const style: any = { left: `${left}%`, backgroundColor: color, animationDelay: `${delay}ms`, transform: `rotate(${Math.random()*360}deg)` };
+                return <span key={i} className="confetti" style={style} />;
+              })}
+            </div>
+          )}
         </motion.div>
       </div>
     </div>
