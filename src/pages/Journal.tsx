@@ -2206,7 +2206,7 @@ const loadSavedEntries = () => {
   };
 
   return (
-    <div className="min-h-screen leopard-pattern p-4 sm:p-6 md:p-8 relative">
+    <div className="min-h-screen stripe-pattern p-4 sm:p-6 md:p-8 relative">
       <div className="pointer-events-none fixed inset-0 z-40 overflow-hidden">
         <AnimatePresence>
           {confetti.map((piece) => (
@@ -2269,12 +2269,12 @@ const loadSavedEntries = () => {
         )}
       </AnimatePresence>
 
-      <div className="max-w-8xl mx-auto text-black relative z-10">
+      <div className="max-w-8xl mx-auto text-white relative z-10">
           <motion.button 
           initial={{ x: -20, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           onClick={() => navigate('/')}
-        className="flex items-center gap-2 text-black bg-white px-3 py-2 rounded-full font-bold uppercase tracking-tighter mb-6 sm:mb-8 hover:bg-neon-pink hover:text-white transition-colors border-2 border-black"
+        className="flex items-center gap-2 text-white bg-black/80 px-3 py-2 rounded-full font-bold uppercase tracking-tighter mb-6 sm:mb-8 hover:bg-neon-cyan hover:text-black transition-colors border border-white/20 shadow-[0_0_18px_rgba(255,43,214,0.25)]"
         >
           <ArrowLeft className="w-4 h-4" />
           Home
@@ -2285,28 +2285,28 @@ const loadSavedEntries = () => {
           <motion.div 
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="bg-white p-6 md:p-8 rounded-3xl border-4 border-neon-pink shadow-2xl text-black relative overflow-hidden"
+            className="surface-light neon-radiance p-6 md:p-8 rounded-3xl border-4 border-neon-pink text-black relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 p-4 opacity-20">
-              <Sparkles className="w-12 h-12 text-neon-pink" />
+              <Sparkles className="w-12 h-12 text-neon-pink drop-shadow-[0_0_16px_rgba(255,43,214,0.75)] pulse-neon" />
             </div>
 
               <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl md:text-3xl font-display italic text-neon-pink flex items-center gap-2">
+              <h2 className="text-2xl md:text-3xl font-display italic text-black flex items-center gap-2 drop-shadow-[0_0_14px_rgba(0,245,255,0.45)]">
                 <BookOpen className="w-6 h-6" />
                 Reflect
               </h2>
                 <div className="flex items-center gap-4">
                 <button 
                   onClick={handleRandom}
-                  className="text-xs font-bold uppercase tracking-tighter text-black/50 hover:text-[#00FFFF] transition-colors flex items-center gap-1"
+                  className="text-xs font-bold uppercase tracking-tighter text-black/60 hover:text-neon-cyan transition-colors flex items-center gap-1"
                 >
                   <Shuffle className="w-3 h-3" />
                   Random
                 </button>
                 <button 
                   onClick={handleNext}
-                  className="text-xs font-bold uppercase tracking-tighter text-black/50 hover:text-neon-pink transition-colors flex items-center gap-1"
+                  className="text-xs font-bold uppercase tracking-tighter text-black/60 hover:text-neon-pink transition-colors flex items-center gap-1"
                 >
                   Skip
                   <SkipForward className="w-3 h-3" />
@@ -2325,9 +2325,9 @@ const loadSavedEntries = () => {
                 className="mb-8 min-h-[120px] md:min-h-[140px]"
               >
                 <div className="mb-3" />
-                <p className="text-lg md:text-xl font-bold italic mb-2">"{INITIAL_PROMPTS[currentPromptIndex].question}"</p>
+                <p className="text-lg md:text-xl font-bold italic mb-2 text-black">"{INITIAL_PROMPTS[currentPromptIndex].question}"</p>
                 {INITIAL_PROMPTS[currentPromptIndex].hint && (
-                  <p className="text-sm md:text-base text-neon-pink/80 font-medium italic">
+                  <p className="text-sm md:text-base text-black/70 font-medium italic">
                     Hint: {INITIAL_PROMPTS[currentPromptIndex].hint}
                   </p>
                 )}
@@ -2342,7 +2342,7 @@ const loadSavedEntries = () => {
                     value={blessed}
                     onChange={(e) => setBlessed(e.target.value)}
                     placeholder="What are you blessed with?"
-                    className="w-full h-32 md:h-40 bg-black/5 border-2 border-black/10 rounded-2xl p-4 text-black placeholder:text-black/40 focus:outline-none focus:border-neon-pink transition-colors resize-none"
+                    className="w-full h-32 md:h-40 bg-black/5 border-2 border-black/10 rounded-2xl p-4 text-black placeholder:text-black/40 focus:outline-none focus:border-neon-cyan transition-colors resize-none"
                   />
                 </div>
 
@@ -2361,7 +2361,7 @@ const loadSavedEntries = () => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
-                className="w-full bg-neon-pink py-4 rounded-xl font-bold uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-white hover:text-neon-pink transition-all border-2 border-neon-pink disabled:opacity-50"
+                className="w-full bg-neon-pink py-4 rounded-xl font-bold uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-neon-cyan hover:text-black transition-all border-2 border-neon-pink shadow-[0_0_18px_rgba(255,43,214,0.55)] pulse-neon disabled:opacity-50"
                 disabled={!blessed.trim() || !because.trim() || showSuccess}
               >
                 {showSuccess ? "Entry Saved!" : "Save Moment"}
@@ -2370,8 +2370,16 @@ const loadSavedEntries = () => {
 
               <button
                 type="button"
+                onClick={() => navigate('/gratitude')}
+                className="w-full bg-neon-cyan text-black py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-neon-pink hover:text-black transition-colors border-2 border-white/15 shadow-[0_0_18px_rgba(0,245,255,0.35)] pulse-neon mb-3"
+              >
+                Gratitude Prompt
+              </button>
+
+              <button
+                type="button"
                 onClick={() => navigate('/entries')}
-                className="w-full bg-black text-white py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-neon-pink hover:text-white transition-colors border-2 border-black"
+                className="w-full bg-black text-white py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-neon-lime hover:text-black transition-colors border-2 border-white/15 shadow-[0_0_18px_rgba(0,245,255,0.35)] pulse-neon"
               >
                 View Saved Entries
               </button>
